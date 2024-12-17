@@ -21,3 +21,17 @@
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4345764122.html" target="_blank">N/search</a>
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4574548135.html" target="_blank">N/log</a>
 
+## 📂 Adding a New File to the File Cabinet
+
+To configure the script and run it successfully, follow these steps:
+
+1. **Upload the File**:
+   - Add the `ssDemoCsv` file to a new folder in the NetSuite **File Cabinet**.
+
+2. **Update the Folder ID**:
+   - Locate the `SampleScheduledScript.js` file.
+   - Replace the folder ID with the correct **internal ID** of the newly created folder in the `folderId` variable.
+
+   Example:
+   ```javascript
+   const folderId = 1234; // Replace with your new folder ID
