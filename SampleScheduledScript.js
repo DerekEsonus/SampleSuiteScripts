@@ -3,7 +3,7 @@
  * @NScriptType ScheduledScript
  */
 
-define(['N/file', 'N/record', 'N/log', 'N/search'], function(file, record, log, search) {
+define(['N/file', 'N/record', 'N/log', 'N/search'], function (file, record, log, search) {
     const execute = (context) => {
         log.debug('Scheduled Script', 'Starting Approval Status Update Process');
 
@@ -24,8 +24,22 @@ define(['N/file', 'N/record', 'N/log', 'N/search'], function(file, record, log, 
             fileSearch.run().getRange({ start: 0, end: 1000 }).forEach(result => {
                 const fileName = result.getValue({ name: 'name', join: 'file' });
                 const fileId = result.getValue({ name: 'internalid', join: 'file' });
-                
-                if (fileName.match(/\d{2}\/\d{2}\/\d{4}/)) { // Check for date pattern in filename
+
+                // Regex Breakdown: /\d{2}\/\d{2}\/\d{4}/
+                // - \d{2}   : Matches exactly 2 digits (e.g., the month or day portion).
+                // - \/      : Matches the forward slash '/' literally. The backslash '\' escapes it.
+                // - \d{2}   : Matches exactly 2 digits (e.g., the day portion).
+                // - \/      : Matches the second forward slash '/' literally.
+                // - \d{4}   : Matches exactly 4 digits (e.g., the year portion).
+                // Full Pattern: Matches dates in the format 'MM/DD/YYYY'.
+                // Example Matches:
+                //   - '12/17/2024'
+                //   - '01/01/2023'
+                // Non-Matches:
+                //   - '12-17-2024' (wrong separator '-')
+                //   - '1/1/2024'   (missing leading zeros)
+                // Regex resources: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
+                if (fileName.match(/\d{2}\/\d{2}\/\d{4}/)) {
                     files.push({
                         id: fileId,
                         name: fileName,
@@ -40,6 +54,32 @@ define(['N/file', 'N/record', 'N/log', 'N/search'], function(file, record, log, 
             }
 
             // Sort files by the date extracted from their names (most recent first)
+            // - files.sort((a, b) => b.created - a.created);
+            //   Explanation:
+            //   - The `sort()` method is used to sort the `files` array.
+            //   - `a` and `b` represent two elements (objects) being compared from the array.
+            //   - `b.created` and `a.created` are the 'created' dates (as Date objects) of the files.
+
+            // Logic:
+            // - Subtract `b.created` (date of the second file) from `a.created` (date of the first file).
+            // - This comparison ensures that files are sorted in **descending order** (most recent dates come first):
+            //      - If `b.created > a.created`, the result will be positive, and `b` comes before `a`.
+            //      - If `b.created < a.created`, the result will be negative, and `a` comes before `b`.
+
+            // Example:
+            // Assume the `files` array contains:
+            // [
+            //     { name: "file1", created: new Date("12/15/2024") },
+            //     { name: "file2", created: new Date("12/17/2024") },
+            //     { name: "file3", created: new Date("12/16/2024") }
+            // ]
+            //
+            // After sorting, the array becomes:
+            // [
+            //     { name: "file2", created: new Date("12/17/2024") }, // Most recent date
+            //     { name: "file3", created: new Date("12/16/2024") },
+            //     { name: "file1", created: new Date("12/15/2024") }
+            // ]
             files.sort((a, b) => b.created - a.created);
             const recentFile = files[0];
 
@@ -53,8 +93,8 @@ define(['N/file', 'N/record', 'N/log', 'N/search'], function(file, record, log, 
             rows.shift(); // Remove header row
 
             for (const row of rows) {
-                if (!row.trim()) continue; // Skip empty rows
-                const fields = row.split(',');
+                if (!row.trim()) continue; // Skip empty rows - Javascript Documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+                const fields = row.split(','); // Split on the , - Javascript Documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
                 const recordId = fields[0].trim(); // Vendor Bill Internal ID
                 const approvalStatus = fields[1].trim().toLowerCase(); // Approval Status (e.g., Approved)
