@@ -41,3 +41,8 @@ To configure the script and run it successfully, follow these steps:
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4267255811.html" target="_blank">N/record</a>
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4574548135.html" target="_blank">N/log</a>
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4321345532.html" target="_blank">N/ui/serverWidget</a>
+
+## Modules used by `SampleSuitelet.js`:
+
+- <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4574548135.html" target="_blank">N/log</a>
+- <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4345764122.html" target="_blank">N/search</a>
