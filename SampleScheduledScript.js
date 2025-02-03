@@ -83,7 +83,7 @@ define(['N/file', 'N/record', 'N/log', 'N/search'], function (file, record, log,
             files.sort((a, b) => b.created - a.created);
             const recentFile = files[0];
 
-            log.debug('Most Recent File', `File: ${recentFile.name}, ID: ${recentFile.id}`);
+            log.audit('Most Recent File', `File: ${recentFile.name}, ID: ${recentFile.id}`);
 
             // Step 2: Load the most recent file and parse its contents
             const paymentFile = file.load({ id: recentFile.id });
