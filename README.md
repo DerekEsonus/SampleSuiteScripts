@@ -46,3 +46,8 @@ To configure the script and run it successfully, follow these steps:
 
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4574548135.html" target="_blank">N/log</a>
 - <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_4345764122.html" target="_blank">N/search</a>
+
+## Modules used by `SampleSuiteQLSuitelet.js`:
+- <a href="https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1510275060.html" target="_blank">N/query</a>
+- Records Browser to view all tables in your specific NetSuite environment : https://******.app.netsuite.com/app/recordscatalog/rcbrowser.nl?whence=#/record_ss/Account
+   - Replace ****** with your account number 
